@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Interactive Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiMjBhaG9lcyIsImEiOiJjbWFwazQxbDgwaXMzMmxwbzJmNmhidm0yIn0.NileAvzC_m2asZI3tLIqUw';
+
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/20ahoes/cmapk6zvk000r01sc5fruhfs8',
+    center: [-71.0138058, 41.7711548],
+    zoom: 9.6
+  });
+
+  map.on('load', () => {
+    // Redirect on polygon click
+    map.on('click', '3a-municipalities-2-5a937b', (e) => {
+      const url = e.features[0].properties.URL;
+      if (url) window.open(url, '_blank');
+    });
+
+    // Change cursor on hover
+    map.on('mouseenter', '3a-municipalities-2-5a937b', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', '3a-municipalities-2-5a937b', () => {
+      map.getCanvas().style.cursor = '';
+    });
+
+    // Add hover layer using filter-based workaround
+    map.addLayer({
+      id: 'hover-layer',
+      type: 'fill',
+      source: 'composite',
+      'source-layer': '3A_Municipalities_2-5a937b',
+      paint: {
+        'fill-color': '#3a5138', // hover color
+        'fill-opacity': 0.5
+      },
+      filter: ['==', 'TOWN_ID', -1] // default = nothing hovered
+    });
+
+    // Change hover-layer filter on mousemove
+    map.on('mousemove', '3a-municipalities-2-5a937b', (e) => {
+      const townId = e.features[0].properties.TOWN_ID;
+      map.setFilter('hover-layer', ['==', 'TOWN_ID', townId]);
+    });
+
+    map.on('mouseleave', '3a-municipalities-2-5a937b', () => {
+      map.setFilter('hover-layer', ['==', 'TOWN_ID', -1]);
+    });
+  });
+</script>
+</body>
+</html>
