@@ -22,7 +22,13 @@
     center: [-71.0138058, 41.7711548],
     zoom: 9.6
   });
-
+map.scrollZoom.disable();
+map.boxZoom.disable();
+map.dragRotate.disable();
+map.dragPan.disable();
+map.keyboard.disable();
+map.doubleClickZoom.disable();
+map.touchZoomRotate.disable();
   map.on('load', () => {
     // Redirect on polygon click
     map.on('click', '3a-municipalities-2-5a937b', (e) => {
