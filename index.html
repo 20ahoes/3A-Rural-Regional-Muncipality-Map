@@ -29,10 +29,10 @@
     // — your Mapbox access token —
     mapboxgl.accessToken = 'pk.eyJ1IjoiMjBhaG9lcyIsImEiOiJjbWFwazQxbDgwaXMzMmxwbzJmNmhidm0yIn0.NileAvzC_m2asZI3tLIqUw';
 
-    // Define the geographic bounds you want to show:
+    // Expanded geographic bounds:
     const bounds = [
-      [-71.10, 41.75],  // southwest corner [lng, lat]
-      [-70.95, 41.85]   // northeast corner
+      [-71.20, 41.65],  // southwest corner [lng, lat]
+      [-70.85, 41.95]   // northeast corner
     ];
 
     // initialize map with bounds
@@ -45,13 +45,13 @@
     });
 
     map.on('load', () => {
-      // 1) click to open URL
+      // click to open URL
       map.on('click', '3a-municipalities-2-5a937b', (e) => {
         const url = e.features[0].properties.URL;
         if (url) window.open(url, '_blank');
       });
 
-      // 2) add hover layer
+      // add hover layer
       map.addLayer({
         id: 'hover-layer',
         type: 'fill',
