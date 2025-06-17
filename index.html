@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Responsive Map with Top Padding</title>
+  <title>Responsive Map with Top Padding & Extended Bounds</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <link
@@ -28,13 +28,13 @@
   <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiMjBhaG9lcyIsImEiOiJjbWFwazQxbDgwaXMzMmxwbzJmNmhidm0yIn0.NileAvzC_m2asZI3tLIqUw';
 
-    // Your geographic bounds:
+    // Extended geographic bounds:
     const bounds = [
-      [-71.20, 41.65],  // southwest [lng, lat]
-      [-70.85, 41.95]   // northeast
+      [-71.25, 41.65],  // southwest [lng, lat]
+      [-70.85, 42.00]   // northeast bumped up from 41.95 → 42.00
     ];
 
-    // Initialize map with extra top padding
+    // initialize map with bounds + top padding
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/20ahoes/cmapk6zvk000r01sc5fruhfs8',
@@ -75,7 +75,7 @@
       });
     });
 
-    // On window resize, resize + re‐fit with top padding
+    // re-fit on resize
     window.addEventListener('resize', () => {
       map.resize();
       map.fitBounds(bounds, {
