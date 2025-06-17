@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Responsive Map with Dynamic Zoom on Resize</title>
+  <title>Responsive Map with Top Padding</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <link
@@ -26,21 +26,22 @@
   <div id="map"></div>
 
   <script>
-    // — your Mapbox access token —
     mapboxgl.accessToken = 'pk.eyJ1IjoiMjBhaG9lcyIsImEiOiJjbWFwazQxbDgwaXMzMmxwbzJmNmhidm0yIn0.NileAvzC_m2asZI3tLIqUw';
 
-    // Define the geographic bounds you want to show:
+    // Your geographic bounds:
     const bounds = [
-      [-71.20, 41.65],  // southwest corner [lng, lat]
-      [-70.85, 41.95]   // northeast corner
+      [-71.20, 41.65],  // southwest [lng, lat]
+      [-70.85, 41.95]   // northeast
     ];
 
-    // initialize map with those bounds
+    // Initialize map with extra top padding
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/20ahoes/cmapk6zvk000r01sc5fruhfs8',
       bounds: bounds,
-      fitBoundsOptions: { padding: 0 },
+      fitBoundsOptions: {
+        padding: { top: 50, right: 0, bottom: 0, left: 0 }
+      },
       interactive: false
     });
 
@@ -51,7 +52,7 @@
         if (url) window.open(url, '_blank');
       });
 
-      // add hover layer
+      // hover highlight
       map.addLayer({
         id: 'hover-layer',
         type: 'fill',
@@ -74,11 +75,11 @@
       });
     });
 
-    // Re-fit the same bounds on every resize so the map zooms in/out responsively
+    // On window resize, resize + re‐fit with top padding
     window.addEventListener('resize', () => {
       map.resize();
       map.fitBounds(bounds, {
-        padding: 0,
+        padding: { top: 50, right: 0, bottom: 0, left: 0 },
         animate: false
       });
     });
