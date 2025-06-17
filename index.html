@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Responsive Map with Fixed Bounds</title>
+  <title>Responsive Map with Dynamic Zoom on Resize</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <link
@@ -29,13 +29,13 @@
     // — your Mapbox access token —
     mapboxgl.accessToken = 'pk.eyJ1IjoiMjBhaG9lcyIsImEiOiJjbWFwazQxbDgwaXMzMmxwbzJmNmhidm0yIn0.NileAvzC_m2asZI3tLIqUw';
 
-    // Expanded geographic bounds:
+    // Define the geographic bounds you want to show:
     const bounds = [
-      [-71.40, 41.85],  // southwest corner [lng, lat]
-      [-71.05, 42.15]   // northeast corner
+      [-71.20, 41.65],  // southwest corner [lng, lat]
+      [-70.85, 41.95]   // northeast corner
     ];
 
-    // initialize map with bounds
+    // initialize map with those bounds
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/20ahoes/cmapk6zvk000r01sc5fruhfs8',
@@ -71,6 +71,15 @@
 
       map.on('mouseleave', '3a-municipalities-2-5a937b', () => {
         map.setFilter('hover-layer', ['==', 'TOWN_ID', -1]);
+      });
+    });
+
+    // Re-fit the same bounds on every resize so the map zooms in/out responsively
+    window.addEventListener('resize', () => {
+      map.resize();
+      map.fitBounds(bounds, {
+        padding: 0,
+        animate: false
       });
     });
   </script>
